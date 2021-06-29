@@ -1,24 +1,30 @@
 class Board
 
     def initialize(size)
+        raise "size is not even" if size % 2 != 0
         @grid = Array.new(size) { Array.new(size) }
     end
 
-    def populate(card_instance)
-        i = 0
-        while i < 2 
-            row = rand(0...@grid.length)
-            col = rand(0...@grid.length)
-            if @grid[row][col] == nil
-                @grid[row][col] = card_instance
-                i += 1
+    def populate
+        alpha = ("a".."z").to_a
+        letters = []
+        ((@grid.length * @grid.length) / 2).times do
+            letter = alpha.sample
+            letters << letter
+            letters << letter
+        end
+        (0...@grid.length).each do |row|
+            (0...@grid.length).each do |col|
+                letter = letters.sample
+                letters.delete(letter)
+                @grid[row][col] = letter
             end
         end
     end
 
     def render
         @grid.each do |row|
-            puts row.join(" ")
+            puts row.map { |ele| ele.display }
         end
     end
 
