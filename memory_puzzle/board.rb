@@ -1,8 +1,12 @@
+require_relative "card.rb"
+require "byebug"
+
+
 class Board
 
     def initialize(size)
         raise "size is not even" if size % 2 != 0
-        @grid = Array.new(size) { Array.new(size) }
+        @grid = Array.new(size) { Array.new(size, "_") }
     end
 
     def populate
@@ -13,19 +17,28 @@ class Board
             letters << letter
             letters << letter
         end
+        letters.shuffle!
         (0...@grid.length).each do |row|
             (0...@grid.length).each do |col|
-                letter = letters.sample
-                letters.delete(letter)
-                @grid[row][col] = letter
+                @grid[row][col] = Card.new(letters.pop)
             end
         end
     end
 
     def render
+        puts "___________"
         @grid.each do |row|
-            puts row.map { |ele| ele.display }
+            row.each do |ele|
+                if ele.face_down == true
+                    print "_"
+                else
+                    print ele.display
+                end
+                print " "
+            end
+            puts ""
         end
+        puts "___________"
     end
 
     def won?()
@@ -44,3 +57,12 @@ class Board
 
 
 end
+
+
+# p board = Board.new(4)
+# p board.populate
+# board.render
+# board.reveal([0,0])
+# board.render
+
+
