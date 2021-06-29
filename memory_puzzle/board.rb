@@ -8,6 +8,11 @@ class Board
         raise "size is not even" if size % 2 != 0
         @grid = Array.new(size) { Array.new(size, "_") }
     end
+    
+    def hide(pos)
+        row, col = pos
+        @grid[row][col].hide
+    end
 
     def populate
         alpha = ("a".."z").to_a
@@ -41,7 +46,7 @@ class Board
         puts "___________"
     end
 
-    def won?()
+    def won?
         @grid.all? do |row|
             row.all? {|ele| ele.face_down == false}
         end
@@ -51,18 +56,19 @@ class Board
         row, col = guessed_pos
         if @grid[row][col].face_down == true
             @grid[row][col].reveal
-            @grid[row][col].face_value
+            return @grid[row][col].face_value
         end
     end
 
-
+    def cheat
+        puts "___________"
+        @grid.each do |row|
+            row.each do |ele|
+                print ele.face_value
+                print " "
+            end
+            puts ""
+        end
+        puts "___________"
+    end
 end
-
-
-# p board = Board.new(4)
-# p board.populate
-# board.render
-# board.reveal([0,0])
-# board.render
-
-
