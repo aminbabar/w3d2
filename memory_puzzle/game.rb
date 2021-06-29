@@ -4,8 +4,6 @@ require_relative "./human_player.rb"
 class Game
     attr_reader(:size)
 
-
-
     def initialize(size, player)
         @player = player
         @board = Board.new(size)
@@ -23,7 +21,8 @@ class Game
             @previously_guessed_pos << @player.get_input
 
             val_1 = @board.reveal(@previously_guessed_pos[-1])
-            
+            @player.get_value(val_1)
+
             system("clear")
             @board.render
             sleep(1)
