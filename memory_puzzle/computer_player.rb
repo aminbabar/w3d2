@@ -1,5 +1,6 @@
 class ComputerPlayer
     def initialize(size)
+        @hash = {}
         @first_guess = true
         @value = nil
         @position = []
@@ -8,12 +9,16 @@ class ComputerPlayer
                 @position << [row, col]
             end
         end
+        @position.shuffle!
     end
 
     def get_input
-        if @first_guess 
+
+        if @first_guess
+            @first_guess = false
             return @position.pop
         else
+
 
         end
     end
